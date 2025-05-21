@@ -1,28 +1,18 @@
 import streamlit as st
 import pandas as pd
-import plotly.graph_objects as go
 import plotly.express as px
-import locale
-from decimal import Decimal
+import plotly.graph_objects as go
 
-# Niestandardowa funkcja formatowania walut (nie wymaga locale)
+# Ustaw konfigurację strony
+st.set_page_config(page_title="Kalkulator Strategii Fifty/Fifty", 
+                   layout="wide",
+                   initial_sidebar_state="expanded")
+
+# Niestandardowa funkcja formatowania EUR bez użycia locale
 def format_eur(value):
-    if isinstance(value, (int, float, Decimal)):
-        # Formatowanie liczby z separatorem tysięcy i symbolem waluty
+    if isinstance(value, (int, float)):
         return f"{int(value):,} €".replace(",", " ")
     return f"0 €"
-
-# Konfiguracja strony
-st.set_page_config(page_title="Kalkulator Strategii Fifty/Fifty", layout="wide")
-
-# Usuń próbę ustawienia locale
-# locale.setlocale(locale.LC_ALL, 'pl_PL') <- USUŃ TĘ LINIĘ
-
-# Tytuł i opis
-st.title("Kalkulator Strategii Fifty/Fifty")
-st.markdown("Optymalizacja alokacji aktywów w metale szlachetne i strategiczne")
-
-# Reszta kodu pozostaje bez zmian...
 
 # Definicja strategii
 strategies = [
@@ -102,9 +92,89 @@ deposit_tariffs = {
             "details": "Zakupy dodatkowe: 100-1.000 EUR/tydzień bez AGIO"
         }
     ],
-    # Reszta definicji taryf...
-    # (Dodaj pozostałe taryfy z oryginalnego kodu)
+    "BALANCE": [
+        {
+            "name": "GTS + GR S-3",
+            "minValue": 10000,
+            "maxValue": 29999,
+            "agio": "3,5% dla SSW + 300 EUR (stała kwota) dla Auvesta",
+            "metals": "GTS: 40% złoto, 20% srebro, 20% platyna, 20% pallad | GR: 50% złoto, 50% srebro",
+            "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,08% netto + VAT miesięcznie",
+            "advantages": ["Równowaga między dostawcami", "Dywersyfikacja metali", "AGIO w GR zwracane w 100% jako bonus metali", "Zakupy dodatkowe bez AGIO"],
+            "details": "Podział 50/50 między SSW (GTS) i Auvesta (GR). Zakupy dodatkowe: 250-2.500 EUR/tydzień bez AGIO."
+        },
+        {
+            "name": "GTS + GR M-6",
+            "minValue": 30000,
+            "maxValue": 49999,
+            "agio": "3,5% dla SSW + 600 EUR (stała kwota) dla Auvesta",
+            "metals": "GTS: 40% złoto, 20% srebro, 20% platyna, 20% pallad | GR: 50% złoto, 50% srebro",
+            "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,07% netto + VAT miesięcznie",
+            "advantages": ["Równowaga między dostawcami", "Dywersyfikacja metali", "AGIO w GR zwracane w 100% jako bonus metali", "Ceny zakupu metali: 1% taniej od taryfy S-3"],
+            "details": "Podział 50/50 między SSW (GTS) i Auvesta (GR). Zakupy dodatkowe: 250-2.500 EUR/tydzień bez AGIO."
+        },
+        {
+            "name": "GTS + GR L-12",
+            "minValue": 50000,
+            "maxValue": 99999,
+            "agio": "3,5% dla SSW + 1.200 EUR (stała kwota) dla Auvesta",
+            "metals": "GTS: 40% złoto, 20% srebro, 20% platyna, 20% pallad | GR: 50% złoto, 50% srebro",
+            "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,06% netto + VAT miesięcznie",
+            "advantages": ["Równowaga między dostawcami", "Dywersyfikacja metali", "AGIO w GR zwracane w 100% jako bonus metali", "Ceny zakupu metali: 3% taniej od taryfy S-3"],
+            "details": "Podział 50/50 między SSW (GTS) i Auvesta (GR). Zakupy dodatkowe: 250-2.500 EUR/tydzień bez AGIO."
+        }
+    ],
+    "FOUNDATION": [
+        {
+            "name": "GT + GR XL-24",
+            "minValue": 100000,
+            "maxValue": 299999,
+            "agio": "3,5% dla SSW + 2.400 EUR (stała kwota) dla Auvesta",
+            "metals": "GT: 20% złoto, 10% srebro, 10% platyna, 10% pallad, 50% metale strategiczne | GR: 50% złoto, 50% srebro",
+            "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,05% netto + VAT miesięcznie",
+            "advantages": ["Dostęp do metali strategicznych", "Optymalne koszty magazynowania", "AGIO w GR zwracane w 100% jako bonus metali", "Ceny zakupu metali: 6% taniej od taryfy S-3"],
+            "details": "Podział 50/50 między SSW (GT) i Auvesta (GR). Zakupy dodatkowe: 500-5.000 EUR/tydzień bez AGIO."
+        },
+        {
+            "name": "GT + GR VIP",
+            "minValue": 300000,
+            "maxValue": 699999,
+            "agio": "3,5% dla SSW + 2.400 EUR (stała kwota) dla Auvesta",
+            "metals": "GT: 20% złoto, 10% srebro, 10% platyna, 10% pallad, 50% metale strategiczne | GR: 50% złoto, 50% srebro",
+            "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,04% netto + VAT miesięcznie",
+            "advantages": ["Dostęp do metali strategicznych", "Optymalne koszty magazynowania", "AGIO w GR zwracane w 100% jako bonus metali", "Ceny zakupu metali: 7% taniej od taryfy S-3"],
+            "details": "Podział 50/50 między SSW (GT) i Auvesta (GR). Zakupy dodatkowe: 500-5.000 EUR/tydzień bez AGIO."
+        }
+    ],
+    "OPTIMAL": [
+        {
+            "name": "GT + GR VIP",
+            "minValue": 700000,
+            "maxValue": 2099999,
+            "agio": "3,5% dla SSW + 2.400 EUR za każde 150.000 EUR dla Auvesta",
+            "metals": "GT: 20% złoto, 10% srebro, 10% platyna, 10% pallad, 50% metale strategiczne | GR: 50% złoto, 50% srebro",
+            "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,04% netto + VAT miesięcznie",
+            "advantages": ["Maksymalna efektywność kosztowa", "Idealna dywersyfikacja", "Dostęp do taryf VIP", "Ceny zakupu metali: 7% taniej od taryfy S-3"],
+            "details": "Podział 50/50 między SSW (GT) i Auvesta (GR). Dla kwot powyżej 900.000 EUR zalecany podział na maksymalnie 6 depozytów VIP. Zakupy dodatkowe: 1.000-20.000 EUR/tydzień bez AGIO."
+        }
+    ],
+    "PRESTIGE": [
+        {
+            "name": "GTS + GT + GR VIP + SMH",
+            "minValue": 2100000,
+            "maxValue": 5000000,
+            "agio": "3,5% dla SSW (GTS, GT) + 2.400 EUR za każde 150.000 EUR dla Auvesta + 0% dla SMH",
+            "metals": "Złożony portfel w proporcjach: 10% GTS, 20% GT, 30% GR, 40% SMH",
+            "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,04% netto + VAT miesięcznie",
+            "advantages": ["Maksymalna dywersyfikacja", "Dominujący udział metali strategicznych (SMH)", "Najniższe koszty utrzymania", "Dedykowany komponent dla metali strategicznych"],
+            "details": "Podział: 10% GTS, 20% GT, 30% GR, 40% SMH. Zakupy dodatkowe: 2.500-50.000 EUR/tydzień bez AGIO."
+        }
+    ]
 }
+
+# Tytuł i opis aplikacji
+st.title("Kalkulator Strategii Fifty/Fifty")
+st.markdown("Optymalizacja alokacji aktywów w metale szlachetne i strategiczne")
 
 # Sidebar z konfiguracją strategii
 with st.sidebar:
@@ -115,45 +185,59 @@ with st.sidebar:
     strategy_index = st.select_slider(
         "Wybierz strategię:",
         options=list(range(len(strategies))),
-        format_func=lambda i: strategy_names[i]
+        format_func=lambda i: strategy_names[i],
+        value=2  # Domyślnie FOUNDATION
     )
     
     current_strategy = strategies[strategy_index]
     st.markdown(f"**{current_strategy['name']}**")
     st.markdown(f"*{current_strategy['description']}*")
     
-    # Kwota alokacji - bez niestandardowej funkcji formatującej
-    amount = st.slider(
-        "Kwota alokacji (EUR):",
-        min_value=current_strategy["minValue"],
-        max_value=current_strategy["maxValue"],
-        value=int((current_strategy["minValue"] + current_strategy["maxValue"]) / 2),
-        step=current_strategy["step"]
-    )
-
-    # Wyświetl sformatowaną wartość poniżej suwaka
-    st.write(f"Wybrana kwota: {format_eur(amount)}")
+    # Kwota alokacji z podziałem na suwak i wyświetlenie wartości
+    st.subheader("Kwota alokacji")
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        amount = st.slider(
+            "Wybierz kwotę:",
+            min_value=current_strategy["minValue"],
+            max_value=current_strategy["maxValue"],
+            value=int((current_strategy["minValue"] + current_strategy["maxValue"]) / 2),
+            step=current_strategy["step"]
+        )
+    with col2:
+        st.metric("Kwota", value=format_eur(amount))
     
     # Efekt Kursu Średniego
-    purchase = st.slider(
-        "Efekt Kursu Średniego (EUR/tydzień):",
-        min_value=current_strategy["minPurchase"],
-        max_value=current_strategy["maxPurchase"],
-        value=int((current_strategy["minPurchase"] + current_strategy["maxPurchase"]) / 2),
-        step=int(current_strategy["minPurchase"] / 2),
-        format=format_eur
-    )
+    st.subheader("Efekt Kursu Średniego")
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        purchase = st.slider(
+            "Wybierz kwotę tygodniową:",
+            min_value=current_strategy["minPurchase"],
+            max_value=current_strategy["maxPurchase"],
+            value=int((current_strategy["minPurchase"] + current_strategy["maxPurchase"]) / 2),
+            step=int(current_strategy["minPurchase"] / 2)
+        )
+    with col2:
+        st.metric("Tygodniowo", value=format_eur(purchase))
+    
+    st.caption("Regularne dokupienia metali dla optymalizacji średniej ceny zakupu")
     
     # Perspektywa czasowa
-    years_value = st.slider(
-        "Perspektywa budowy fundamentu (lata):",
-        min_value=current_strategy["minYears"],
-        max_value=current_strategy["maxYears"],
-        value=20
-    )
+    st.subheader("Perspektywa czasowa")
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        years_value = st.slider(
+            "Wybierz horyzont czasowy:",
+            min_value=current_strategy["minYears"],
+            max_value=current_strategy["maxYears"],
+            value=20
+        )
+    with col2:
+        years_display = "30+" if years_value >= 30 else str(years_value)
+        st.metric("Lat", value=years_display)
     
-    years_display = "30+" if years_value >= 30 else str(years_value)
-    st.markdown(f"*{current_strategy['yearsDescription']}*")
+    st.caption(current_strategy["yearsDescription"])
 
 # Funkcje pomocnicze
 def get_metals(strategy_name, amount):
@@ -203,8 +287,9 @@ def get_components(strategy_name, amount):
             {"name": "GTS (SSW)", "value": 100, "amount": amount, "color": "#FFD700"}
         ]
     elif strategy_name in ["BALANCE", "FOUNDATION", "OPTIMAL"]:
+        component_name = "GTS (SSW)" if strategy_name == "BALANCE" else "GT (SSW)"
         return [
-            {"name": "START" == strategy_name and "GTS (SSW)" or "GT (SSW)", "value": 50, "amount": amount * 0.5, "color": "#FFD700"},
+            {"name": component_name, "value": 50, "amount": amount * 0.5, "color": "#FFD700"},
             {"name": "GR (Auvesta)", "value": 50, "amount": amount * 0.5, "color": "#C0C0C0"}
         ]
     else:  # PRESTIGE
@@ -235,7 +320,7 @@ def get_agio(strategy_name, amount):
         elif auvesta_amount < 150000:
             auvesta_agio = 2400  # XL-24
         else:
-            vip_count = min(6, round(auvesta_amount / 150000))
+            vip_count = min(6, int(auvesta_amount / 150000) + (1 if auvesta_amount % 150000 > 0 else 0))
             auvesta_agio = vip_count * 2400  # VIP
         
         initial_agio = ssw_agio + auvesta_agio
@@ -244,7 +329,7 @@ def get_agio(strategy_name, amount):
         gts_agio = amount * 0.1 * 0.035
         gt_agio = amount * 0.2 * 0.035
         gr_amount = amount * 0.3
-        gr_count = min(6, round(gr_amount / 150000))
+        gr_count = min(6, int(gr_amount / 150000) + (1 if gr_amount % 150000 > 0 else 0))
         gr_agio = gr_count * 2400
         
         initial_agio = gts_agio + gt_agio + gr_agio
@@ -262,6 +347,13 @@ def get_agio(strategy_name, amount):
         "effectivePercent": effective_percent
     }
 
+def get_current_tariff(strategy_name, amount):
+    if strategy_name in deposit_tariffs:
+        for tariff in deposit_tariffs[strategy_name]:
+            if tariff["minValue"] <= amount <= tariff["maxValue"]:
+                return tariff
+    return None
+
 # Główne zakładki
 tab1, tab2, tab3 = st.tabs(["Alokacja metali", "Struktura komponentów", "Taryfy depozytowe"])
 
@@ -276,6 +368,7 @@ with tab1:
     col1, col2 = st.columns(2)
     
     with col1:
+        # Wykres kołowy z Plotly
         fig = px.pie(
             metals_df, 
             values='value', 
@@ -284,17 +377,32 @@ with tab1:
             color_discrete_map={m["name"]: m["color"] for m in metals},
             hole=0.3
         )
-        fig.update_traces(textinfo='percent+label')
-        fig.update_layout(height=500)
+        fig.update_traces(textinfo='percent+label', textfont_size=12)
+        fig.update_layout(
+            height=500,
+            margin=dict(l=20, r=20, t=20, b=20),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5)
+        )
         st.plotly_chart(fig, use_container_width=True)
     
     with col2:
+        # Tabela z danymi
+        metals_data = {
+            "Metal": [m["name"] for m in metals],
+            "Alokacja (%)": [f"{m['value']}%" for m in metals],
+            "Kwota": [format_eur(m["amount"]) for m in metals]
+        }
+        
+        metals_table = pd.DataFrame(metals_data)
+        
+        # Użyj stylu Streamlit do wyświetlenia tabeli
         st.dataframe(
-            pd.DataFrame({
-                "Metal": [m["name"] for m in metals],
-                "Alokacja (%)": [f"{m['value']}%" for m in metals],
-                "Kwota (EUR)": [format_eur(m["amount"]) for m in metals]
-            }),
+            metals_table,
+            column_config={
+                "Metal": st.column_config.TextColumn("Metal"),
+                "Alokacja (%)": st.column_config.TextColumn("Alokacja (%)"),
+                "Kwota": st.column_config.TextColumn("Kwota")
+            },
             hide_index=True,
             use_container_width=True
         )
@@ -310,6 +418,7 @@ with tab2:
     col1, col2 = st.columns(2)
     
     with col1:
+        # Wykres kołowy z Plotly
         fig = px.pie(
             components_df, 
             values='value', 
@@ -318,17 +427,32 @@ with tab2:
             color_discrete_map={c["name"]: c["color"] for c in components},
             hole=0.3
         )
-        fig.update_traces(textinfo='percent+label')
-        fig.update_layout(height=500)
+        fig.update_traces(textinfo='percent+label', textfont_size=12)
+        fig.update_layout(
+            height=500,
+            margin=dict(l=20, r=20, t=20, b=20),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5)
+        )
         st.plotly_chart(fig, use_container_width=True)
     
     with col2:
+        # Tabela z danymi
+        components_data = {
+            "Komponent": [c["name"] for c in components],
+            "Alokacja (%)": [f"{c['value']}%" for c in components],
+            "Kwota": [format_eur(c["amount"]) for c in components]
+        }
+        
+        components_table = pd.DataFrame(components_data)
+        
+        # Użyj stylu Streamlit do wyświetlenia tabeli
         st.dataframe(
-            pd.DataFrame({
-                "Komponent": [c["name"] for c in components],
-                "Alokacja (%)": [f"{c['value']}%" for c in components],
-                "Kwota (EUR)": [format_eur(c["amount"]) for c in components]
-            }),
+            components_table,
+            column_config={
+                "Komponent": st.column_config.TextColumn("Komponent"),
+                "Alokacja (%)": st.column_config.TextColumn("Alokacja (%)"),
+                "Kwota": st.column_config.TextColumn("Kwota")
+            },
             hide_index=True,
             use_container_width=True
         )
@@ -337,12 +461,29 @@ with tab3:
     st.header(f"Taryfy depozytowe dla strategii {current_strategy['name']}")
     
     if current_strategy["name"] in deposit_tariffs:
-        for tariff in deposit_tariffs[current_strategy["name"]]:
-            with st.expander(
-                f"{tariff['name']} ({format_eur(tariff['minValue'])} - {format_eur(tariff['maxValue'])})",
-                expanded=tariff['minValue'] <= amount <= tariff['maxValue']
-            ):
+        for idx, tariff in enumerate(deposit_tariffs[current_strategy["name"]]):
+            is_current = tariff["minValue"] <= amount <= tariff["maxValue"]
+            
+            # Dodaj kolorowe tło dla aktualnie wybranej taryfy
+            container_style = "background-color: #E6F3FF; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #0066CC;" if is_current else "background-color: #FFFFFF; padding: 20px; border-radius: 10px; margin-bottom: 20px;"
+            
+            with st.container():
+                st.markdown(f'<div style="{container_style}">', unsafe_allow_html=True)
+                
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    st.subheader(tariff["name"])
+                    st.markdown(f"Kwota: {format_eur(tariff['minValue'])} - {format_eur(tariff['maxValue'])}")
+                
+                with col2:
+                    if is_current:
+                        st.success("✓ Dostępna dla aktualnej kwoty")
+                    else:
+                        st.info("Poza aktualnym zakresem")
+                
                 col1, col2 = st.columns(2)
+                
                 with col1:
                     st.markdown("**AGIO:**")
                     st.markdown(tariff["agio"])
@@ -355,78 +496,95 @@ with tab3:
                     st.markdown(tariff["metals"])
                 
                 st.markdown("**Zalety:**")
-                for advantage in tariff["advantages"]:
-                    st.markdown(f"- {advantage}")
+                advantages_text = "".join([f"- {advantage}<br>" for advantage in tariff["advantages"]])
+                st.markdown(advantages_text, unsafe_allow_html=True)
                 
                 st.markdown("**Szczegóły:**")
-                st.markdown(f"_{tariff['details']}_")
+                st.info(tariff["details"])
+                
+                st.markdown('</div>', unsafe_allow_html=True)
+
+# Obliczenia
+agio = get_agio(current_strategy["name"], amount)
+current_tariff = get_current_tariff(current_strategy["name"], amount)
 
 # Koszty AGIO i Rekomendacje
+st.header("Podsumowanie strategii")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Koszty AGIO")
+    st.subheader("Koszty AGIO")
     
-    agio = get_agio(current_strategy["name"], amount)
-    
-    st.subheader("Koszt początkowy:")
-    st.metric(
-        label=f"{agio['initialPercent']:.2f}%",
-        value=format_eur(agio["initialAgio"])
+    # Ramka początkowego AGIO
+    st.markdown(
+        f'''
+        <div style="background-color: #FFF9E6; padding: 15px; border-radius: 10px; border-left: 4px solid #F2C94C;">
+            <h4 style="margin-top: 0;">Koszt początkowy:</h4>
+            <p style="font-size: 24px; font-weight: bold;">{agio["initialPercent"]:.2f}% ({format_eur(agio["initialAgio"])})</p>
+        </div>
+        ''', 
+        unsafe_allow_html=True
     )
     
-    st.subheader("Koszt efektywny (po bonusach):")
-    st.metric(
-        label=f"{agio['effectivePercent']:.2f}%",
-        value=format_eur(agio["effectiveAgio"]),
-        delta=f"-{format_eur(agio['bonus'])}" if agio["bonus"] > 0 else None
+    # Ramka efektywnego AGIO
+    st.markdown(
+        f'''
+        <div style="background-color: #E6F9E8; padding: 15px; border-radius: 10px; border-left: 4px solid #27AE60; margin-top: 15px;">
+            <h4 style="margin-top: 0;">Koszt efektywny (po bonusach):</h4>
+            <p style="font-size: 24px; font-weight: bold; color: #27AE60;">{agio["effectivePercent"]:.2f}% ({format_eur(agio["effectiveAgio"])})</p>
+            {f'<p style="margin-top: 10px; font-size: 14px; color: #219653;"><span style="font-weight: bold;">Bonus:</span> {format_eur(agio["bonus"])} zwracane w postaci dodatkowych metali</p>' if agio["bonus"] > 0 else ''}
+        </div>
+        ''', 
+        unsafe_allow_html=True
     )
-    
-    if agio["bonus"] > 0:
-        st.info(f"Bonus: {format_eur(agio['bonus'])} zwracane w postaci dodatkowych metali")
 
 with col2:
-    st.header("Projekcja i rekomendacja")
+    st.subheader("Projekcja i rekomendacja")
     
-    # Znajdowanie odpowiedniej taryfy
-    current_tariff = None
-    if current_strategy["name"] in deposit_tariffs:
-        for tariff in deposit_tariffs[current_strategy["name"]]:
-            if tariff["minValue"] <= amount <= tariff["maxValue"]:
-                current_tariff = tariff
-                break
-    
-    metrics = [
-        ("Rekomendowany depozyt", current_tariff["name"] if current_tariff else "Brak dopasowania"),
-        ("Efektywne AGIO", f"{agio['effectivePercent']:.2f}%"),
-        ("Rekomendacja Efektu Kursu Średniego", f"{format_eur(purchase)}/tydzień"),
-        ("Roczna kwota dokupów", format_eur(purchase * 52)),
-        ("Perspektywa budowy", f"{years_display} lat"),
-        ("Szacowana suma po {years_display} latach", format_eur(round(amount + (purchase * 52 * min(years_value, 30)))))
-    ]
-    
-    for label, value in metrics:
-        st.metric(label=label, value=value)
+    # Ramka z rekomendacjami
+    st.markdown(
+        f'''
+        <div style="background-color: #E6F0FF; padding: 15px; border-radius: 10px; border-left: 4px solid #2F80ED;">
+            <ul style="list-style-type: none; padding-left: 0; margin-top: 0;">
+                <li style="margin-bottom: 10px;"><span style="font-weight: bold;">Rekomendowany depozyt:</span> <span style="color: #2F80ED; font-weight: 500;">{current_tariff["name"] if current_tariff else "Brak dopasowania"}</span></li>
+                <li style="margin-bottom: 10px;"><span style="font-weight: bold;">Efektywne AGIO:</span> <span style="color: #27AE60;">{agio["effectivePercent"]:.2f}%</span></li>
+                <li style="margin-bottom: 10px;"><span style="font-weight: bold;">Rekomendacja Efektu Kursu Średniego:</span> <span style="font-weight: 500;">{format_eur(purchase)}/tydzień</span></li>
+                <li style="margin-bottom: 10px;"><span style="font-weight: bold;">Roczna kwota dokupów:</span> <span style="font-weight: 500;">{format_eur(purchase * 52)}</span></li>
+                <li style="margin-bottom: 10px;"><span style="font-weight: bold;">Perspektywa budowy:</span> <span style="font-weight: 500;">{years_display} lat</span></li>
+                <li><span style="font-weight: bold;">Szacowana suma po {years_display} latach:</span> <span style="color: #2F80ED; font-weight: bold;">{format_eur(round(amount + (purchase * 52 * min(years_value, 30))))}</span></li>
+            </ul>
+        </div>
+        ''', 
+        unsafe_allow_html=True
+    )
 
 # Podsumowanie
-st.header(f"Podsumowanie strategii {current_strategy['name']}")
-
-summary_col1, summary_col2 = st.columns(2)
-
-with summary_col1:
-    st.metric(
-        label="Kwota aktywacji",
-        value=format_eur(round(amount + agio["initialAgio"])),
-        delta=f"{format_eur(amount)} + {format_eur(agio['initialAgio'])} AGIO"
-    )
-
-with summary_col2:
-    st.metric(
-        label=f"Szacowana alokacja środków po {years_display} latach",
-        value=format_eur(round(amount + (purchase * 52 * min(years_value, 30)))),
-        delta=f"Z początkowej alokacji {format_eur(amount)}"
-    )
+st.markdown(
+    f'''
+    <div style="background-color: #2F80ED; color: white; padding: 20px; border-radius: 10px; margin-top: 30px; text-align: center;">
+        <h2 style="margin-top: 0; margin-bottom: 15px; font-weight: 600;">Podsumowanie strategii {current_strategy["name"]}</h2>
+        <div style="margin-bottom: 15px;">
+            <span style="font-weight: 500;">Kwota aktywacji:</span>
+            <span style="font-weight: 700; font-size: 18px;">{format_eur(round(amount + agio["initialAgio"]))}</span>
+            <span style="font-size: 14px; margin-left: 10px;">({format_eur(amount)} + {format_eur(agio["initialAgio"])} AGIO)</span>
+        </div>
+        <div>
+            <p>Szacowana alokacja środków po {years_display} latach: <span style="font-weight: 700; font-size: 24px;">{format_eur(round(amount + (purchase * 52 * min(years_value, 30))))}</span></p>
+            <p style="font-size: 14px; margin-top: 5px;">Z początkowej alokacji {format_eur(amount)} i tygodniowych dokupień w wysokości {format_eur(purchase)}</p>
+        </div>
+    </div>
+    ''', 
+    unsafe_allow_html=True
+)
 
 # Stopka
 st.markdown("---")
-st.markdown("© 2025 Kalkulator Strategii Fifty/Fifty - Narzędzie do planowania alokacji w metale | [bit.ly/m/wozniak](https://bit.ly/m/wozniak)")
+st.markdown(
+    '''
+    <div style="text-align: center; color: #666; font-size: 14px;">
+        © 2025 Kalkulator Strategii Fifty/Fifty - Narzędzie do planowania alokacji w metale | 
+        <a href="https://bit.ly/m/wozniak" target="_blank" style="color: #2F80ED;">bit.ly/m/wozniak</a>
+    </div>
+    ''', 
+    unsafe_allow_html=True
+)
