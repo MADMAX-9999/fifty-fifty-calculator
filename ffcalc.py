@@ -43,7 +43,7 @@ strategies = [
     {
         "name": "FOUNDATION",
         "minValue": 100000,
-        "maxValue": 699999,
+        "maxValue": 700000,
         "description": "Kompleksowe rozwiązanie dla budowania solidnego fundamentu majątkowego opartego na materialnych aktywach",
         "minPurchase": 500,
         "maxPurchase": 5000,
@@ -55,7 +55,7 @@ strategies = [
     {
         "name": "OPTIMAL",
         "minValue": 700000,
-        "maxValue": 2099999,
+        "maxValue": 2100000,
         "description": "Zaawansowane rozwiązanie dla tworzenia znaczącego majątku materialnego o najwyższym stopniu odporności",
         "minPurchase": 1000,
         "maxPurchase": 20000,
