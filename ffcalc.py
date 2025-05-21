@@ -3,22 +3,26 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import locale
+from decimal import Decimal
 
-# Ustawienie polskiego formatowania walut
-try:
-    locale.setlocale(locale.LC_ALL, 'pl_PL.UTF-8')
-except:
-    locale.setlocale(locale.LC_ALL, 'pl_PL')
-
+# Niestandardowa funkcja formatowania walut (nie wymaga locale)
 def format_eur(value):
-    return f"{value:,.0f} €".replace(",", " ")
+    if isinstance(value, (int, float, Decimal)):
+        # Formatowanie liczby z separatorem tysięcy i symbolem waluty
+        return f"{int(value):,} €".replace(",", " ")
+    return f"0 €"
 
 # Konfiguracja strony
 st.set_page_config(page_title="Kalkulator Strategii Fifty/Fifty", layout="wide")
 
+# Usuń próbę ustawienia locale
+# locale.setlocale(locale.LC_ALL, 'pl_PL') <- USUŃ TĘ LINIĘ
+
 # Tytuł i opis
 st.title("Kalkulator Strategii Fifty/Fifty")
 st.markdown("Optymalizacja alokacji aktywów w metale szlachetne i strategiczne")
+
+# Reszta kodu pozostaje bez zmian...
 
 # Definicja strategii
 strategies = [
