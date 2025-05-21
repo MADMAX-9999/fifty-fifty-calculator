@@ -122,15 +122,17 @@ with st.sidebar:
     st.markdown(f"**{current_strategy['name']}**")
     st.markdown(f"*{current_strategy['description']}*")
     
-    # Kwota alokacji
+    # Kwota alokacji - bez niestandardowej funkcji formatującej
     amount = st.slider(
         "Kwota alokacji (EUR):",
         min_value=current_strategy["minValue"],
         max_value=current_strategy["maxValue"],
         value=int((current_strategy["minValue"] + current_strategy["maxValue"]) / 2),
-        step=current_strategy["step"],
-        format=format_eur
+        step=current_strategy["step"]
     )
+
+    # Wyświetl sformatowaną wartość poniżej suwaka
+    st.write(f"Wybrana kwota: {format_eur(amount)}")
     
     # Efekt Kursu Średniego
     purchase = st.slider(
