@@ -19,7 +19,7 @@ strategies = [
     {
         "name": "START",
         "minValue": 5000,
-        "maxValue": 9999,
+        "maxValue": 10000,
         "description": "Fundamentalny pierwszy krok w budowaniu trwałego, materialnego majątku zabezpieczonego przed inflacją",
         "minPurchase": 100,
         "maxPurchase": 1000,
@@ -31,7 +31,7 @@ strategies = [
     {
         "name": "BALANCE",
         "minValue": 10000,
-        "maxValue": 99999,
+        "maxValue": 100000,
         "description": "Zaawansowana dywersyfikacja majątku poprzez zrównoważoną alokację kapitału między różne klasy metali",
         "minPurchase": 250,
         "maxPurchase": 2500,
