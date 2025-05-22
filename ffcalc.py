@@ -204,6 +204,7 @@ with st.sidebar:
             value=int((current_strategy["minValue"] + current_strategy["maxValue"]) / 2),
             step=current_strategy["step"]
         )
+        st.metric("Kwota", value=format_eur(amount))
     with col2:
         st.metric("Kwota", value=format_eur(amount))
     
