@@ -268,16 +268,16 @@ def get_metals(strategy_name, amount):
         ]
     else:  # PRESTIGE
         return [
-            {"name": "Złoto", "value": 25, "amount": amount * 0.25, "color": "#FFD700"},
-            {"name": "Srebro", "value": 20, "amount": amount * 0.2, "color": "#C0C0C0"},
-            {"name": "Platyna", "value": 5, "amount": amount * 0.05, "color": "#E5E4E2"},
-            {"name": "Pallad", "value": 5, "amount": amount * 0.05, "color": "#B9F2FF"},
+            {"name": "Złoto", "value": 20, "amount": amount * 0.20, "color": "#FFD700"},
+            {"name": "Srebro", "value": 16, "amount": amount * 0.16, "color": "#C0C0C0"},
+            {"name": "Platyna", "value": 7, "amount": amount * 0.07, "color": "#E5E4E2"},
+            {"name": "Pallad", "value": 7, "amount": amount * 0.07, "color": "#B9F2FF"},
             {"name": "Metale Strategiczne", "value": 40, "amount": amount * 0.4, "color": "#4169E1"},
-            {"name": "Hafn", "value": 1, "amount": amount * 0.01, "color": "#A9A9A9"},
-            {"name": "Gal", "value": 1, "amount": amount * 0.01, "color": "#6495ED"},
-            {"name": "Ind", "value": 1, "amount": amount * 0.01, "color": "#9370DB"},
-            {"name": "German", "value": 1, "amount": amount * 0.01, "color": "#808080"},
-            {"name": "Tantal", "value": 1, "amount": amount * 0.01, "color": "#708090"}
+            {"name": "Hafn", "value": 2, "amount": amount * 0.02, "color": "#A9A9A9"},
+            {"name": "Gal", "value": 2, "amount": amount * 0.02, "color": "#6495ED"},
+            {"name": "Ind", "value": 2, "amount": amount * 0.02, "color": "#9370DB"},
+            {"name": "German", "value": 2, "amount": amount * 0.02, "color": "#808080"},
+            {"name": "Tantal", "value": 2, "amount": amount * 0.02, "color": "#708090"}
         ]
 
 def get_components(strategy_name, amount):
