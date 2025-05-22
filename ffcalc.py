@@ -209,17 +209,16 @@ with st.sidebar:
     
     # Efekt Kursu Średniego
     st.subheader("Efekt Kursu Średniego")
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        purchase = st.slider(
-            "Wybierz kwotę tygodniową:",
-            min_value=current_strategy["minPurchase"],
-            max_value=current_strategy["maxPurchase"],
-            value=int((current_strategy["minPurchase"] + current_strategy["maxPurchase"]) / 2),
-            step=int(current_strategy["minPurchase"] / 2)
-        )
-    with col2:
-        st.metric("Tygodniowo", value=format_eur(purchase))
+    
+    purchase = st.slider(
+        "Wybierz kwotę tygodniową:",
+        min_value=current_strategy["minPurchase"],
+        max_value=current_strategy["maxPurchase"],
+        value=int((current_strategy["minPurchase"] + current_strategy["maxPurchase"]) / 2),
+        step=int(current_strategy["minPurchase"] / 2)
+    )
+    
+    st.metric("Tygodniowo", value=format_eur(purchase))
     
     st.caption("Regularne dokupienia metali dla optymalizacji średniej ceny zakupu")
     
