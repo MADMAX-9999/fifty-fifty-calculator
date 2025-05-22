@@ -582,6 +582,8 @@ st.markdown("---")
 st.markdown(
     '''
     <div style="text-align: center; color: #666; font-size: 14px;">
+        ⚠️ ZASTRZEŻENIE: Ten kalkulator służy wyłącznie celom edukacyjnym i prezentuje przykładowe strategie rozwiązań. 
+        Nie stanowi porady ani doradztwa inwestycyjnego w rozumieniu prawa. 
         © 2025 Kalkulator Strategii Fifty/Fifty - Narzędzie do planowania alokacji w metale | 
         <a href="https://bit.ly/m/wozniak" target="_blank" style="color: #2F80ED;">bit.ly/m/wozniak</a>
     </div>
