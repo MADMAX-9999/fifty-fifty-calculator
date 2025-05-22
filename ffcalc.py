@@ -196,14 +196,14 @@ with st.sidebar:
     # Kwota alokacji z podziałem na suwak i wyświetlenie wartości
     st.subheader("Kwota alokacji")
 
-        amount = st.slider(
-            "Wybierz kwotę:",
-            min_value=current_strategy["minValue"],
-            max_value=current_strategy["maxValue"],
-            value=int((current_strategy["minValue"] + current_strategy["maxValue"]) / 2),
-            step=current_strategy["step"]
-        )
-        st.metric("Kwota", value=format_eur(amount))
+    amount = st.slider(
+        "Wybierz kwotę:",
+        min_value=current_strategy["minValue"],
+        max_value=current_strategy["maxValue"],
+        value=int((current_strategy["minValue"] + current_strategy["maxValue"]) / 2),
+        step=current_strategy["step"]
+    )
+    st.metric("Kwota", value=format_eur(amount))
   
     
     # Efekt Kursu Średniego
