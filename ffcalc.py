@@ -84,19 +84,19 @@ deposit_tariffs = {
         {
             "name": "GTS",
             "minValue": 5000,
-            "maxValue": 9999,
+            "maxValue": 10000,
             "agio": "3,5% kwoty aktywacji",
             "metals": "40% złoto, 20% srebro, 20% platyna, 20% pallad",
             "storage": "1,5% netto + VAT rocznie",
-            "advantages": ["Niski próg wejścia", "Prostota zarządzania", "Ekspozycja na podstawowe metale szlachetne", "Zakupy dodatkowe bez AGIO"],
-            "details": "Zakupy dodatkowe: 100-1.000 EUR/tydzień bez AGIO"
+            "advantages": ["Niski próg wejścia", "Prostota zarządzania", "Ekspozycja na podstawowe metale szlachetne", "Zakupy dodatkowe możliwe bez AGIO", "Efekt Kursu Średniego"],
+            "details": "Zakupy dodatkowe: 100-500 EUR/tygodniowo bez AGIO"
         }
     ],
     "BALANCE": [
         {
             "name": "GTS + GR S-3",
             "minValue": 10000,
-            "maxValue": 29999,
+            "maxValue": 30000,
             "agio": "3,5% dla SSW + 300 EUR (stała kwota) dla Auvesta",
             "metals": "GTS: 40% złoto, 20% srebro, 20% platyna, 20% pallad | GR: 50% złoto, 50% srebro",
             "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,08% netto + VAT miesięcznie",
@@ -106,7 +106,7 @@ deposit_tariffs = {
         {
             "name": "GTS + GR M-6",
             "minValue": 30000,
-            "maxValue": 49999,
+            "maxValue": 50000,
             "agio": "3,5% dla SSW + 600 EUR (stała kwota) dla Auvesta",
             "metals": "GTS: 40% złoto, 20% srebro, 20% platyna, 20% pallad | GR: 50% złoto, 50% srebro",
             "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,07% netto + VAT miesięcznie",
@@ -116,7 +116,7 @@ deposit_tariffs = {
         {
             "name": "GTS + GR L-12",
             "minValue": 50000,
-            "maxValue": 99999,
+            "maxValue": 100000,
             "agio": "3,5% dla SSW + 1.200 EUR (stała kwota) dla Auvesta",
             "metals": "GTS: 40% złoto, 20% srebro, 20% platyna, 20% pallad | GR: 50% złoto, 50% srebro",
             "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,06% netto + VAT miesięcznie",
@@ -126,9 +126,9 @@ deposit_tariffs = {
     ],
     "FOUNDATION": [
         {
-            "name": "GT + GR XL-24",
+            "name": "GT + 3 x GR XL-24",
             "minValue": 100000,
-            "maxValue": 299999,
+            "maxValue": 300000,
             "agio": "3,5% dla SSW + 2.400 EUR (stała kwota) dla Auvesta",
             "metals": "GT: 20% złoto, 10% srebro, 10% platyna, 10% pallad, 50% metale strategiczne | GR: 50% złoto, 50% srebro",
             "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,05% netto + VAT miesięcznie",
@@ -136,7 +136,7 @@ deposit_tariffs = {
             "details": "Podział 50/50 między SSW (GT) i Auvesta (GR). Zakupy dodatkowe: 500-5.000 EUR/tydzień bez AGIO."
         },
         {
-            "name": "GT + GR VIP",
+            "name": "GT + 6 x GR XL-24 lub 2 x GR VIP",
             "minValue": 300000,
             "maxValue": 699999,
             "agio": "3,5% dla SSW + 2.400 EUR (stała kwota) dla Auvesta",
@@ -148,7 +148,7 @@ deposit_tariffs = {
     ],
     "OPTIMAL": [
         {
-            "name": "GT + GR VIP",
+            "name": "GT + 6 x GR VIP",
             "minValue": 700000,
             "maxValue": 2099999,
             "agio": "3,5% dla SSW + 2.400 EUR za każde 150.000 EUR dla Auvesta",
@@ -160,7 +160,7 @@ deposit_tariffs = {
     ],
     "PRESTIGE": [
         {
-            "name": "GTS + GT + GR VIP + SMH",
+            "name": "GTS + GT + 6 x GR VIP + SMH",
             "minValue": 2100000,
             "maxValue": 5000000,
             "agio": "3,5% dla SSW (GTS, GT) + 2.400 EUR za każde 150.000 EUR dla Auvesta + 0% dla SMH",
