@@ -9,6 +9,7 @@ import json
 st.set_page_config(
     page_title="Kalkulator Strategii Fifty/Fifty", 
     layout="wide",
+    base="light",
     initial_sidebar_state="expanded",
     menu_items={
         'Get Help': 'https://bit.ly/m/wozniak',
@@ -16,6 +17,10 @@ st.set_page_config(
         'About': "Kalkulator Strategii Fifty/Fifty v2.0"
     }
 )
+
+
+
+
 
 # CSS dla lepszego stylu
 st.markdown("""
