@@ -217,7 +217,6 @@ with st.sidebar:
         value=int((current_strategy["minPurchase"] + current_strategy["maxPurchase"]) / 2),
         step=int(current_strategy["minPurchase"] / 2)
     )
-    
     st.metric("Tygodniowo", value=format_eur(purchase))
     
     st.caption("Regularne dokupienia metali dla optymalizacji średniej ceny zakupu")
