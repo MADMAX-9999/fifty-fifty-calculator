@@ -179,7 +179,13 @@ st.markdown("Optymalizacja alokacji aktywów w metale szlachetne i strategiczne"
 # Sidebar z konfiguracją strategii
 with st.sidebar:
     st.header("Konfiguracja Strategii")
-    
+
+
+    current_strategy = strategies[strategy_index]
+    st.markdown(f"**{current_strategy['name']}**")
+    st.markdown(f"*{current_strategy['description']}*")
+
+
     # Wybór strategii
     strategy_names = [s["name"] for s in strategies]
     strategy_index = st.select_slider(
@@ -189,9 +195,7 @@ with st.sidebar:
         value=2  # Domyślnie FOUNDATION
     )
     
-    current_strategy = strategies[strategy_index]
-    st.markdown(f"**{current_strategy['name']}**")
-    st.markdown(f"*{current_strategy['description']}*")
+
     
     # Kwota alokacji z podziałem na suwak i wyświetlenie wartości
     st.subheader("Kwota alokacji")
