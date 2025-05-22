@@ -195,8 +195,7 @@ with st.sidebar:
     
     # Kwota alokacji z podziałem na suwak i wyświetlenie wartości
     st.subheader("Kwota alokacji")
-    col1, col2 = st.columns([3, 1])
-    with col1:
+
         amount = st.slider(
             "Wybierz kwotę:",
             min_value=current_strategy["minValue"],
@@ -205,8 +204,7 @@ with st.sidebar:
             step=current_strategy["step"]
         )
         st.metric("Kwota", value=format_eur(amount))
-    with col2:
-        st.metric("Kwota", value=format_eur(amount))
+  
     
     # Efekt Kursu Średniego
     st.subheader("Efekt Kursu Średniego")
