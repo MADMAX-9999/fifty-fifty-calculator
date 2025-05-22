@@ -191,7 +191,7 @@ with st.sidebar:
     )
     
     current_strategy = strategies[strategy_index]
-    st.title(f"**{current_strategy['name']}**")
+    st.title(f"*{current_strategy['name']}*")
     st.markdown(f"*{current_strategy['description']}*")
     
     # Kwota alokacji z podziałem na suwak i wyświetlenie wartości
