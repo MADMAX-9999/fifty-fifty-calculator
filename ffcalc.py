@@ -138,7 +138,7 @@ deposit_tariffs = {
         {
             "name": "GT + 6 x GR XL-24 lub 2 x GR VIP",
             "minValue": 300000,
-            "maxValue": 699999,
+            "maxValue": 700000,
             "agio": "3,5% dla SSW + 2.400 EUR (stała kwota) dla Auvesta",
             "metals": "GT: 20% złoto, 10% srebro, 10% platyna, 10% pallad, 50% metale strategiczne | GR: 50% złoto, 50% srebro",
             "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,04% netto + VAT miesięcznie",
@@ -150,7 +150,7 @@ deposit_tariffs = {
         {
             "name": "GT + 6 x GR VIP",
             "minValue": 700000,
-            "maxValue": 2099999,
+            "maxValue": 2100000,
             "agio": "3,5% dla SSW + 2.400 EUR za każde 150.000 EUR dla Auvesta",
             "metals": "GT: 20% złoto, 10% srebro, 10% platyna, 10% pallad, 50% metale strategiczne | GR: 50% złoto, 50% srebro",
             "storage": "SSW: 1,5% netto + VAT rocznie | Auvesta: 0,04% netto + VAT miesięcznie",
