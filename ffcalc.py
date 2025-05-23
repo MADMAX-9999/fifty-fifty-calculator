@@ -229,7 +229,7 @@ with st.sidebar:
             "Wybierz horyzont czasowy:",
             min_value=current_strategy["minYears"],
             max_value=current_strategy["maxYears"],
-            value=20
+            value=25
         )
     with col2:
         years_display = "30+" if years_value >= 30 else str(years_value)
