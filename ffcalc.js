@@ -10,7 +10,7 @@ const StrategyCalculator = () => {
       maxValue: 9999, 
       description: "Fundamentalny pierwszy krok w budowaniu trwałego, materialnego majątku zabezpieczonego przed inflacją",
       minPurchase: 100,
-      maxPurchase: 1000,
+      maxPurchase: 500,
       minYears: 7,
       maxYears: 30,
       yearsDescription: "Horyzont czasowy 7-30+ lat stanowi perspektywę dla budowy solidnych podstaw majątkowych",
