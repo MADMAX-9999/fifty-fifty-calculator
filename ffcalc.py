@@ -82,7 +82,7 @@ strategies = [
 deposit_tariffs = {
     "START": [
         {
-            "name": "GTS",
+            "name": "GTSmart",
             "minValue": 5000,
             "maxValue": 10000,
             "agio": "3,5% kwoty aktywacji",
@@ -94,7 +94,7 @@ deposit_tariffs = {
     ],
     "BALANCE": [
         {
-            "name": "GTS + GR S-3",
+            "name": "GTSmart + GRatio S-3",
             "minValue": 10000,
             "maxValue": 30000,
             "agio": "3,5% dla SSW + 300 EUR (stała kwota) dla Auvesta",
@@ -104,7 +104,7 @@ deposit_tariffs = {
             "details": "Podział 50/50 między SSW (GTS) i Auvesta (GR). Zakupy dodatkowe: 250-2.500 EUR/tydzień bez AGIO."
         },
         {
-            "name": "GTS + GR M-6",
+            "name": "GTSmart + GRatio M-6",
             "minValue": 30000,
             "maxValue": 50000,
             "agio": "3,5% dla SSW + 600 EUR (stała kwota) dla Auvesta",
@@ -114,7 +114,7 @@ deposit_tariffs = {
             "details": "Podział 50/50 między SSW (GTS) i Auvesta (GR). Zakupy dodatkowe: 250-2.500 EUR/tydzień bez AGIO."
         },
         {
-            "name": "GTS + GR L-12",
+            "name": "GTSmart + GRatio L-12",
             "minValue": 50000,
             "maxValue": 100000,
             "agio": "3,5% dla SSW + 1.200 EUR (stała kwota) dla Auvesta",
@@ -160,7 +160,7 @@ deposit_tariffs = {
     ],
     "PRESTIGE": [
         {
-            "name": "GTS + GT + 6 x GR VIP + SMH",
+            "name": "GTSmart + GT + 6 x GR VIP + SMH",
             "minValue": 2100000,
             "maxValue": 5000000,
             "agio": "3,5% dla SSW (GTS, GT) + 2.400 EUR za każde 150.000 EUR dla Auvesta + 0% dla SMH",
@@ -283,13 +283,13 @@ def get_metals(strategy_name, amount):
 def get_components(strategy_name, amount):
     if strategy_name == "START":
         return [
-            {"name": "GTS (SSW)", "value": 100, "amount": amount, "color": "#FFD700"}
+            {"name": "GTSmart (SSW)", "value": 100, "amount": amount, "color": "#FFD700"}
         ]
     elif strategy_name in ["BALANCE", "FOUNDATION", "OPTIMAL"]:
-        component_name = "GTS (SSW)" if strategy_name == "BALANCE" else "GT (SSW)"
+        component_name = "GTSmart (SSW)" if strategy_name == "BALANCE" else "GT (SSW)"
         return [
             {"name": component_name, "value": 50, "amount": amount * 0.5, "color": "#FFD700"},
-            {"name": "GR (Auvesta)", "value": 50, "amount": amount * 0.5, "color": "#C0C0C0"}
+            {"name": "GRatio (Auvesta)", "value": 50, "amount": amount * 0.5, "color": "#C0C0C0"}
         ]
     else:  # PRESTIGE
         return [
