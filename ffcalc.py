@@ -1,6 +1,14 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.express as px  # brakowało importu
+
+# --- Ustawienia strony ---
+st.set_page_config(
+    page_title="Kalkulator Strategii Fifty/Fifty",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # --- Funkcje pomocnicze ---
 
@@ -17,27 +25,34 @@ def calculate_metal_amounts(total_investment, allocation, initial_prices, markup
     return metal_amounts
 
 def simulate_portfolio_value(df, metal_amounts):
+    df = df.copy()  # unikamy modyfikacji oryginału
     df["Portfolio_Value"] = 0
     for metal, amount in metal_amounts.items():
         df["Portfolio_Value"] += df[metal] * amount
     return df
 
+def format_eur(value):
+    if isinstance(value, (int, float)):
+        return f"{int(value):,} €".replace(",", " ")
+    return "0 €"
+
+# --- Dane do strategii i taryf (tu wklej swój kod z definicjami strategii, taryf itp.) ---
+# (pomijam tu dla czytelności, wklej je pod ten komentarz)
+
 # --- UI aplikacji ---
 
 st.title("Kalkulator strategii inwestycyjnej i symulacja historyczna metali szlachetnych")
 
-# 1. Wczytanie danych historycznych
+# Sidebar: wczytanie danych i parametry inwestycji
 st.sidebar.header("Dane historyczne")
 uploaded_file = st.sidebar.file_uploader("Wczytaj plik CSV z danymi historycznymi metali", type="csv")
 
 if uploaded_file is not None:
     df = load_data(uploaded_file)
 
-    # 2. Parametry inwestycji i podział portfela
     st.sidebar.header("Parametry inwestycji")
     total_investment = st.sidebar.number_input("Kwota inwestycji (EUR)", min_value=1000.0, value=10000.0, step=100.0)
 
-    # Podział portfela - stały zgodnie z Twoim założeniem
     allocation = {
         "Gold_EUR": 0.40,
         "Silver_EUR": 0.20,
@@ -45,30 +60,25 @@ if uploaded_file is not None:
         "Palladium_EUR": 0.20
     }
 
-    # Wyświetlamy podział w UI
     st.sidebar.markdown("### Podział portfela:")
     for metal, pct in allocation.items():
         st.sidebar.write(f"{metal.replace('_EUR','')}: {pct*100:.0f}%")
 
-    # 3. Obliczenia
     initial_prices = df.iloc[0][list(allocation.keys())]
     metal_amounts = calculate_metal_amounts(total_investment, allocation, initial_prices, markup=1.15)
 
-    # 4. Symulacja wartości portfela
-    df = simulate_portfolio_value(df, metal_amounts)
+    df_portfolio = simulate_portfolio_value(df, metal_amounts)
 
-    # 5. Wyświetlenie wyników
     st.header("Symulacja wartości portfela na danych historycznych")
     st.write(f"Kwota inwestycji: {total_investment:.2f} EUR")
-    st.write("Ilość zakupionych metali (uwzględniając 15% marży od ceny spot):")
+    st.write("Ilość zakupionych metali (z 15% marżą od ceny spot):")
     for metal, amount in metal_amounts.items():
         st.write(f"- {metal.replace('_EUR','')}: {amount:.4f} jednostek")
 
-    # Wykres wartości portfela w czasie
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-        x=df["Date"],
-        y=df["Portfolio_Value"],
+        x=df_portfolio["Date"],
+        y=df_portfolio["Portfolio_Value"],
         mode="lines",
         name="Wartość portfela"
     ))
@@ -77,15 +87,20 @@ if uploaded_file is not None:
         xaxis_title="Data",
         yaxis_title="Wartość portfela (EUR)"
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
 
-    # Podsumowanie końcowe
     st.subheader("Podsumowanie")
-    st.write(f"Wartość portfela na koniec okresu: {df['Portfolio_Value'].iloc[-1]:.2f} EUR")
-    st.write(f"Zysk/strata: {(df['Portfolio_Value'].iloc[-1] - total_investment):.2f} EUR ({((df['Portfolio_Value'].iloc[-1]/total_investment)-1)*100:.2f}%)")
+    st.write(f"Wartość portfela na koniec okresu: {df_portfolio['Portfolio_Value'].iloc[-1]:.2f} EUR")
+    st.write(f"Zysk/strata: {(df_portfolio['Portfolio_Value'].iloc[-1] - total_investment):.2f} EUR ({((df_portfolio['Portfolio_Value'].iloc[-1]/total_investment)-1)*100:.2f}%)")
 
 else:
     st.info("Proszę wczytać plik CSV z danymi historycznymi metali, aby rozpocząć symulację.")
+
+# --- Tutaj wklej pozostałą część swojego kalkulatora strategii ---
+# np. konfiguracje strategii, taryfy, wykresy, tabele itd.
+# Możesz użyć st.tabs lub st.expander, aby rozdzielić UI na sekcje
+
+
 
 # --- Tutaj możesz dodać pozostałą część swojego kalkulatora strategii ---
 # np. opisy taryf, bonusów, kalkulacje według Twoich wcześniejszych funkcji
